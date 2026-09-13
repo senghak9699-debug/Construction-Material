@@ -244,9 +244,9 @@
     .contact-fields{ text-align:left; }
   }
 
-  [contenteditable="true"]{ outline:none; border-radius:2px; }
-  [contenteditable="true"]:hover{ background:rgba(181,86,58,0.08); }
-  [contenteditable="true"]:focus{ background:rgba(181,86,58,0.14); }
+  .editable{ outline:none; border-radius:2px; }
+  body.edit-mode .editable:hover{ background:rgba(181,86,58,0.08); cursor:text; }
+  body.edit-mode .editable:focus{ background:rgba(181,86,58,0.14); }
 
   .edit-note{
     background:var(--ink);
@@ -256,7 +256,28 @@
     padding:8px 16px;
   }
   .edit-note b{ color:#fff; }
-  @media print{ .edit-note{ display:none; } }
+  @media print{ .edit-note, .edit-toggle{ display:none; } }
+
+  .edit-toggle{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    padding:12px 18px;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25);
+  }
+  .edit-toggle:hover{ background:var(--steel); }
+  body.edit-mode .edit-toggle{ background:var(--clay); }
 
   @media print {
     @page { size: A4 portrait; margin: 12mm; }
@@ -269,39 +290,41 @@
 </head>
 <body>
 
-<div class="edit-note">Click any text to edit it directly — <b>use your browser's "Save Page As" (Ctrl/Cmd+S)</b> to keep changes, or paste them back to me and I'll update the file.</div>
+<div class="edit-note">Editing is <b>locked</b> by default so visitors can't accidentally change anything. Use the "Enable Editing" button (bottom right) to unlock it, then <b>Ctrl/Cmd+S</b> to save your changes, or Commit them on GitHub to update the live site.</div>
+
+<button class="edit-toggle" id="editToggle">✏️ Enable Editing</button>
 
 <div class="sheet">
 
   <div class="titleblock">
     <div class="titleblock-main">
       <div class="titleblock-text">
-        <p class="kicker" contenteditable="true">Official Register • Editable Draft</p>
-        <h1 contenteditable="true">Masonry Works — Materials Register</h1>
-        <p contenteditable="true">Reference list of materials, specifications, and suppliers compiled for procurement and BOQ pricing.</p>
+        <p class="kicker editable">Official Register • Editable Draft</p>
+        <h1 class="editable">Masonry Works — Materials Register</h1>
+        <p class="editable">Reference list of materials, specifications, and suppliers compiled for procurement and BOQ pricing.</p>
       </div>
       <div class="share-badge">
         <img id="qrcode" src="" alt="Register QR Code">
-        <span contenteditable="true">Scan or Share</span>
+        <span class="editable">Scan or Share</span>
         <a id="register-link" href="#" target="_blank">Open Link ↗</a>
       </div>
     </div>
     <div class="titleblock-meta">
       <div class="meta-cell">
         <span class="label">Project</span>
-        <span class="value" contenteditable="true">Riverside Residence</span>
+        <span class="value editable">Riverside Residence</span>
       </div>
       <div class="meta-cell">
         <span class="label">Location</span>
-        <span class="value" contenteditable="true">Phnom Penh, Cambodia</span>
+        <span class="value editable">Phnom Penh, Cambodia</span>
       </div>
       <div class="meta-cell">
         <span class="label">Prepared by</span>
-        <span class="value" contenteditable="true">Senghak</span>
+        <span class="value editable">Senghak</span>
       </div>
       <div class="meta-cell">
         <span class="label">Date</span>
-        <span class="value" contenteditable="true">13 Sep 2026</span>
+        <span class="value editable">13 Sep 2026</span>
       </div>
     </div>
   </div>
@@ -325,16 +348,16 @@
       </svg>
     </div>
     <div>
-      <p class="mat-name" contenteditable="true">Hollow Clay Brick</p>
-      <p class="mat-note" contenteditable="true">Fired clay brick for non-load-bearing partition walls.</p>
+      <p class="mat-name editable">Hollow Clay Brick</p>
+      <p class="mat-note editable">Fired clay brick for non-load-bearing partition walls.</p>
     </div>
     <div class="specs">
-      <span class="k">Code</span><span class="v" contenteditable="true">CLB-08</span>
-      <span class="k">Size</span><span class="v" contenteditable="true">80×80×180mm</span>
-      <span class="k">Brand</span><span class="v" contenteditable="true">Local</span>
-      <span class="k">Supplier</span><span class="v" contenteditable="true">Local Supplier</span>
-      <span class="k">Tel</span><span class="v" contenteditable="true">+855 12 345 678</span>
-      <span class="k">Price</span><span class="v price" contenteditable="true">$0.04 / pc</span>
+      <span class="k">Code</span><span class="v editable">CLB-08</span>
+      <span class="k">Size</span><span class="v editable">80×80×180mm</span>
+      <span class="k">Brand</span><span class="v editable">Local</span>
+      <span class="k">Supplier</span><span class="v editable">Local Supplier</span>
+      <span class="k">Tel</span><span class="v editable">+855 12 345 678</span>
+      <span class="k">Price</span><span class="v price editable">$0.04 / pc</span>
     </div>
   </div>
 
@@ -350,16 +373,16 @@
       </svg>
     </div>
     <div>
-      <p class="mat-name" contenteditable="true">Solid Concrete Block (CHB)</p>
-      <p class="mat-note" contenteditable="true">Load-bearing concrete masonry unit for exterior walls.</p>
+      <p class="mat-name editable">Solid Concrete Block (CHB)</p>
+      <p class="mat-note editable">Load-bearing concrete masonry unit for exterior walls.</p>
     </div>
     <div class="specs">
-      <span class="k">Code</span><span class="v" contenteditable="true">CHB-15</span>
-      <span class="k">Size</span><span class="v" contenteditable="true">150×200×400mm</span>
-      <span class="k">Brand</span><span class="v" contenteditable="true">Cambodia Concrete Co.</span>
-      <span class="k">Supplier</span><span class="v" contenteditable="true">PP Building Supply</span>
-      <span class="k">Tel</span><span class="v" contenteditable="true">+855 23 456 789</span>
-      <span class="k">Price</span><span class="v price" contenteditable="true">$0.55 / pc</span>
+      <span class="k">Code</span><span class="v editable">CHB-15</span>
+      <span class="k">Size</span><span class="v editable">150×200×400mm</span>
+      <span class="k">Brand</span><span class="v editable">Cambodia Concrete Co.</span>
+      <span class="k">Supplier</span><span class="v editable">PP Building Supply</span>
+      <span class="k">Tel</span><span class="v editable">+855 23 456 789</span>
+      <span class="k">Price</span><span class="v price editable">$0.55 / pc</span>
     </div>
   </div>
 
@@ -374,16 +397,16 @@
       </svg>
     </div>
     <div>
-      <p class="mat-name" contenteditable="true">Portland Cement (OPC Type I)</p>
-      <p class="mat-note" contenteditable="true">General-purpose cement for mortar and concrete mixes.</p>
+      <p class="mat-name editable">Portland Cement (OPC Type I)</p>
+      <p class="mat-note editable">General-purpose cement for mortar and concrete mixes.</p>
     </div>
     <div class="specs">
-      <span class="k">Code</span><span class="v" contenteditable="true">CEM-42.5N</span>
-      <span class="k">Size</span><span class="v" contenteditable="true">50kg bag</span>
-      <span class="k">Brand</span><span class="v" contenteditable="true">Chip Mong</span>
-      <span class="k">Supplier</span><span class="v" contenteditable="true">Local Hardware</span>
-      <span class="k">Tel</span><span class="v" contenteditable="true">+855 17 222 333</span>
-      <span class="k">Price</span><span class="v price" contenteditable="true">$5.20 / bag</span>
+      <span class="k">Code</span><span class="v editable">CEM-42.5N</span>
+      <span class="k">Size</span><span class="v editable">50kg bag</span>
+      <span class="k">Brand</span><span class="v editable">Chip Mong</span>
+      <span class="k">Supplier</span><span class="v editable">Local Hardware</span>
+      <span class="k">Tel</span><span class="v editable">+855 17 222 333</span>
+      <span class="k">Price</span><span class="v price editable">$5.20 / bag</span>
     </div>
   </div>
 
@@ -396,16 +419,16 @@
       </svg>
     </div>
     <div>
-      <p class="mat-name" contenteditable="true">River Sand (Fine Aggregate)</p>
-      <p class="mat-note" contenteditable="true">Washed river sand for mortar and plaster mixes.</p>
+      <p class="mat-name editable">River Sand (Fine Aggregate)</p>
+      <p class="mat-note editable">Washed river sand for mortar and plaster mixes.</p>
     </div>
     <div class="specs">
-      <span class="k">Code</span><span class="v" contenteditable="true">SND-F</span>
-      <span class="k">Size</span><span class="v" contenteditable="true">per m³</span>
-      <span class="k">Brand</span><span class="v" contenteditable="true">Local Quarry</span>
-      <span class="k">Supplier</span><span class="v" contenteditable="true">Mekong River Supplier</span>
-      <span class="k">Tel</span><span class="v" contenteditable="true">+855 92 111 222</span>
-      <span class="k">Price</span><span class="v price" contenteditable="true">$14 / m³</span>
+      <span class="k">Code</span><span class="v editable">SND-F</span>
+      <span class="k">Size</span><span class="v editable">per m³</span>
+      <span class="k">Brand</span><span class="v editable">Local Quarry</span>
+      <span class="k">Supplier</span><span class="v editable">Mekong River Supplier</span>
+      <span class="k">Tel</span><span class="v editable">+855 92 111 222</span>
+      <span class="k">Price</span><span class="v price editable">$14 / m³</span>
     </div>
   </div>
 
@@ -420,16 +443,16 @@
       </svg>
     </div>
     <div>
-      <p class="mat-name" contenteditable="true">Crushed Stone Aggregate</p>
-      <p class="mat-note" contenteditable="true">Graded coarse aggregate for concrete mixes.</p>
+      <p class="mat-name editable">Crushed Stone Aggregate</p>
+      <p class="mat-note editable">Graded coarse aggregate for concrete mixes.</p>
     </div>
     <div class="specs">
-      <span class="k">Code</span><span class="v" contenteditable="true">AGG-19</span>
-      <span class="k">Size</span><span class="v" contenteditable="true">19mm graded</span>
-      <span class="k">Brand</span><span class="v" contenteditable="true">Local Quarry</span>
-      <span class="k">Supplier</span><span class="v" contenteditable="true">Kandal Aggregate Supply</span>
-      <span class="k">Tel</span><span class="v" contenteditable="true">+855 11 555 666</span>
-      <span class="k">Price</span><span class="v price" contenteditable="true">$18 / m³</span>
+      <span class="k">Code</span><span class="v editable">AGG-19</span>
+      <span class="k">Size</span><span class="v editable">19mm graded</span>
+      <span class="k">Brand</span><span class="v editable">Local Quarry</span>
+      <span class="k">Supplier</span><span class="v editable">Kandal Aggregate Supply</span>
+      <span class="k">Tel</span><span class="v editable">+855 11 555 666</span>
+      <span class="k">Price</span><span class="v price editable">$18 / m³</span>
     </div>
   </div>
 
@@ -445,16 +468,16 @@
       </svg>
     </div>
     <div>
-      <p class="mat-name" contenteditable="true">Deformed Reinforcement Bar</p>
-      <p class="mat-note" contenteditable="true">Ribbed steel bar for reinforced concrete lintels and columns.</p>
+      <p class="mat-name editable">Deformed Reinforcement Bar</p>
+      <p class="mat-note editable">Ribbed steel bar for reinforced concrete lintels and columns.</p>
     </div>
     <div class="specs">
-      <span class="k">Code</span><span class="v" contenteditable="true">RB-D12</span>
-      <span class="k">Size</span><span class="v" contenteditable="true">12mm × 12m</span>
-      <span class="k">Brand</span><span class="v" contenteditable="true">Tycoons Steel</span>
-      <span class="k">Supplier</span><span class="v" contenteditable="true">Steel Distributor</span>
-      <span class="k">Tel</span><span class="v" contenteditable="true">+855 15 777 888</span>
-      <span class="k">Price</span><span class="v price" contenteditable="true">$9.80 / pc</span>
+      <span class="k">Code</span><span class="v editable">RB-D12</span>
+      <span class="k">Size</span><span class="v editable">12mm × 12m</span>
+      <span class="k">Brand</span><span class="v editable">Tycoons Steel</span>
+      <span class="k">Supplier</span><span class="v editable">Steel Distributor</span>
+      <span class="k">Tel</span><span class="v editable">+855 15 777 888</span>
+      <span class="k">Price</span><span class="v price editable">$9.80 / pc</span>
     </div>
   </div>
 
@@ -466,16 +489,16 @@
       </svg>
     </div>
     <div>
-      <p class="mat-name" contenteditable="true">Masonry Mortar Mix</p>
-      <p class="mat-note" contenteditable="true">Pre-blended mortar for brick and block laying.</p>
+      <p class="mat-name editable">Masonry Mortar Mix</p>
+      <p class="mat-note editable">Pre-blended mortar for brick and block laying.</p>
     </div>
     <div class="specs">
-      <span class="k">Code</span><span class="v" contenteditable="true">MOR-M5</span>
-      <span class="k">Size</span><span class="v" contenteditable="true">25kg bag</span>
-      <span class="k">Brand</span><span class="v" contenteditable="true">Local</span>
-      <span class="k">Supplier</span><span class="v" contenteditable="true">Local Hardware</span>
-      <span class="k">Tel</span><span class="v" contenteditable="true">+855 16 999 000</span>
-      <span class="k">Price</span><span class="v price" contenteditable="true">$3.10 / bag</span>
+      <span class="k">Code</span><span class="v editable">MOR-M5</span>
+      <span class="k">Size</span><span class="v editable">25kg bag</span>
+      <span class="k">Brand</span><span class="v editable">Local</span>
+      <span class="k">Supplier</span><span class="v editable">Local Hardware</span>
+      <span class="k">Tel</span><span class="v editable">+855 16 999 000</span>
+      <span class="k">Price</span><span class="v price editable">$3.10 / bag</span>
     </div>
   </div>
 
@@ -490,34 +513,50 @@
       </svg>
     </div>
     <div>
-      <p class="mat-name" contenteditable="true">Waterproofing Membrane</p>
-      <p class="mat-note" contenteditable="true">Self-adhesive membrane for foundation and wet-area damp-proofing.</p>
+      <p class="mat-name editable">Waterproofing Membrane</p>
+      <p class="mat-note editable">Self-adhesive membrane for foundation and wet-area damp-proofing.</p>
     </div>
     <div class="specs">
-      <span class="k">Code</span><span class="v" contenteditable="true">WPM-1.5</span>
-      <span class="k">Size</span><span class="v" contenteditable="true">1 × 10m roll</span>
-      <span class="k">Brand</span><span class="v" contenteditable="true">Sika</span>
-      <span class="k">Supplier</span><span class="v" contenteditable="true">Sika Cambodia Dealer</span>
-      <span class="k">Tel</span><span class="v" contenteditable="true">+855 23 888 999</span>
-      <span class="k">Price</span><span class="v price" contenteditable="true">$22 / roll</span>
+      <span class="k">Code</span><span class="v editable">WPM-1.5</span>
+      <span class="k">Size</span><span class="v editable">1 × 10m roll</span>
+      <span class="k">Brand</span><span class="v editable">Sika</span>
+      <span class="k">Supplier</span><span class="v editable">Sika Cambodia Dealer</span>
+      <span class="k">Tel</span><span class="v editable">+855 23 888 999</span>
+      <span class="k">Price</span><span class="v price editable">$22 / roll</span>
     </div>
   </div>
 
   <div class="contact">
     <div>
-      <h3 contenteditable="true">Questions on pricing or availability?</h3>
-      <p contenteditable="true">Get in touch for a full BOQ or a formal quotation on any item above.</p>
+      <h3 class="editable">Questions on pricing or availability?</h3>
+      <p class="editable">Get in touch for a full BOQ or a formal quotation on any item above.</p>
     </div>
     <div class="contact-fields">
-      <div><span class="label">Email</span><span class="val" contenteditable="true">you@example.com</span></div>
-      <div><span class="label">Phone</span><span class="val" contenteditable="true">+855 00 000 000</span></div>
-      <div><span class="label">Address</span><span class="val" contenteditable="true">Phnom Penh, Cambodia</span></div>
+      <div><span class="label">Email</span><span class="val editable">you@example.com</span></div>
+      <div><span class="label">Phone</span><span class="val editable">+855 00 000 000</span></div>
+      <div><span class="label">Address</span><span class="val editable">Phnom Penh, Cambodia</span></div>
     </div>
   </div>
 
 </div>
 
 <script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('editToggle');
+    const editableEls = document.querySelectorAll('.editable');
+    let editMode = false;
+
+    function setEditMode(on) {
+      editMode = on;
+      editableEls.forEach(el => el.contentEditable = on ? 'true' : 'false');
+      document.body.classList.toggle('edit-mode', on);
+      toggleBtn.textContent = on ? '🔒 Lock Editing' : '✏️ Enable Editing';
+    }
+
+    setEditMode(false); // locked by default
+    toggleBtn.addEventListener('click', () => setEditMode(!editMode));
+  });
+
   window.addEventListener('DOMContentLoaded', () => {
     // Once this file is published (GitHub Pages, Netlify, your own domain, etc.),
     // paste the live address here so the QR code always points to the right place, e.g.:
