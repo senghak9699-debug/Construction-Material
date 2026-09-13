@@ -172,8 +172,31 @@
     align-items:center;
     justify-content:center;
     background:var(--paper-2);
+    position:relative;
+    overflow:hidden;
   }
   .swatch svg{ width:40px; height:40px; }
+  .swatch img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .swatch-upload{
+    position:absolute;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(43,40,37,0.55);
+    color:#fff;
+    border:none;
+    font-size:18px;
+    cursor:pointer;
+    padding:0;
+  }
+  body.edit-mode .swatch-upload{ display:flex; }
+  .swatch-upload:hover{ background:rgba(181,86,58,0.75); }
 
   .mat-name{
     font-family:'Zilla Slab',serif;
@@ -290,7 +313,7 @@
 </head>
 <body>
 
-<div class="edit-note">Editing is <b>locked</b> by default so visitors can't accidentally change anything. Use the "Enable Editing" button (bottom right) to unlock it, then <b>Ctrl/Cmd+S</b> to save your changes, or Commit them on GitHub to update the live site.</div>
+<div class="edit-note">Editing is <b>locked</b> by default so visitors can't accidentally change anything. Use the "Enable Editing" button (bottom right) to unlock it — you can then edit text and click the 📷 icon on any material photo to upload a real image. Save with <b>Ctrl/Cmd+S</b>, or Commit on GitHub to update the live site.</div>
 
 <button class="edit-toggle" id="editToggle">✏️ Enable Editing</button>
 
@@ -346,6 +369,8 @@
         <line x1="24" y1="24" x2="24" y2="34"/>
         <line x1="36" y1="24" x2="36" y2="34"/>
       </svg>
+      <button class="swatch-upload" type="button" title="Upload photo">📷</button>
+      <input type="file" accept="image/*" class="swatch-file" hidden>
     </div>
     <div>
       <p class="mat-name editable">Hollow Clay Brick</p>
@@ -371,6 +396,8 @@
         <line x1="14" y1="24" x2="14" y2="36"/>
         <line x1="34" y1="24" x2="34" y2="36"/>
       </svg>
+      <button class="swatch-upload" type="button" title="Upload photo">📷</button>
+      <input type="file" accept="image/*" class="swatch-file" hidden>
     </div>
     <div>
       <p class="mat-name editable">Solid Concrete Block (CHB)</p>
@@ -395,6 +422,8 @@
         <line x1="20" y1="10" x2="20" y2="14"/>
         <line x1="28" y1="10" x2="28" y2="14"/>
       </svg>
+      <button class="swatch-upload" type="button" title="Upload photo">📷</button>
+      <input type="file" accept="image/*" class="swatch-file" hidden>
     </div>
     <div>
       <p class="mat-name editable">Portland Cement (OPC Type I)</p>
@@ -417,6 +446,8 @@
         <path d="M8 34 L18 16 L28 34 Z"/>
         <path d="M22 34 L30 22 L40 34 Z"/>
       </svg>
+      <button class="swatch-upload" type="button" title="Upload photo">📷</button>
+      <input type="file" accept="image/*" class="swatch-file" hidden>
     </div>
     <div>
       <p class="mat-name editable">River Sand (Fine Aggregate)</p>
@@ -441,6 +472,8 @@
         <circle cx="34" cy="28" r="6"/>
         <circle cx="20" cy="34" r="3"/>
       </svg>
+      <button class="swatch-upload" type="button" title="Upload photo">📷</button>
+      <input type="file" accept="image/*" class="swatch-file" hidden>
     </div>
     <div>
       <p class="mat-name editable">Crushed Stone Aggregate</p>
@@ -466,6 +499,8 @@
         <line x1="27" y1="23" x2="31" y2="19"/>
         <line x1="33" y1="17" x2="37" y2="13"/>
       </svg>
+      <button class="swatch-upload" type="button" title="Upload photo">📷</button>
+      <input type="file" accept="image/*" class="swatch-file" hidden>
     </div>
     <div>
       <p class="mat-name editable">Deformed Reinforcement Bar</p>
@@ -487,6 +522,8 @@
       <svg viewBox="0 0 48 48" fill="none" stroke="#B5563A" stroke-width="2">
         <path d="M14 12 h20 v6 h-4 v18 h-12 v-18 h-4 Z"/>
       </svg>
+      <button class="swatch-upload" type="button" title="Upload photo">📷</button>
+      <input type="file" accept="image/*" class="swatch-file" hidden>
     </div>
     <div>
       <p class="mat-name editable">Masonry Mortar Mix</p>
@@ -511,6 +548,8 @@
         <line x1="18" y1="34" x2="40" y2="34"/>
         <line x1="18" y1="24" x2="34" y2="24"/>
       </svg>
+      <button class="swatch-upload" type="button" title="Upload photo">📷</button>
+      <input type="file" accept="image/*" class="swatch-file" hidden>
     </div>
     <div>
       <p class="mat-name editable">Waterproofing Membrane</p>
@@ -555,6 +594,35 @@
 
     setEditMode(false); // locked by default
     toggleBtn.addEventListener('click', () => setEditMode(!editMode));
+
+    // Photo upload per material swatch
+    document.querySelectorAll('.swatch').forEach(swatch => {
+      const btn = swatch.querySelector('.swatch-upload');
+      const fileInput = swatch.querySelector('.swatch-file');
+      if (!btn || !fileInput) return;
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          let img = swatch.querySelector('img');
+          const svg = swatch.querySelector('svg');
+          if (!img) {
+            img = document.createElement('img');
+            swatch.insertBefore(img, svg || btn);
+          }
+          img.src = e.target.result;
+          if (svg) svg.remove();
+        };
+        reader.readAsDataURL(file);
+      });
+    });
   });
 
   window.addEventListener('DOMContentLoaded', () => {
