@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masonry Works — Materials & Supplier Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE8DF;
+    --paper-2:#E4DED2;
+    --ink:#2B2825;
+    --clay:#B5563A;
+    --steel:#4A4E52;
+    --line:#C9C2B4;
+    --muted:#8C8578;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--clay); color:var(--paper); }
+
+  .sheet{
+    max-width:920px;
+    margin:0 auto;
+    padding:48px 32px 80px;
+  }
+
+  /* ---- Title block ---- */
+  .titleblock{
+    border:1px solid var(--ink);
+    background:#EDE8DF;
+  }
+  .titleblock-main{
+    padding:32px 32px 24px;
+    border-bottom:1px solid var(--ink);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:24px;
+  }
+  .titleblock-text{
+    flex:1;
+  }
+  .titleblock-main .kicker{
+    font-size:12px;
+    color:var(--clay);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin:0 0 8px;
+  }
+  h1{
+    font-family:'Zilla Slab',serif;
+    font-weight:700;
+    font-size:clamp(28px,4.5vw,42px);
+    line-height:1.1;
+    margin:0 0 10px;
+    letter-spacing:-.01em;
+  }
+  .titleblock-main p{
+    max-width:52ch;
+    color:var(--steel);
+    margin:0;
+    font-size:15px;
+  }
+
+  /* Share badge & QR Code */
+  .share-badge{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    padding:10px 12px;
+    text-align:center;
+    min-width:130px;
+  }
+  .share-badge img{
+    width:96px;
+    height:96px;
+    display:block;
+    background:#fff;
+    padding:3px;
+    border:1px solid var(--line);
+  }
+  .share-badge span{
+    font-size:10px;
+    font-weight:600;
+    color:var(--muted);
+    text-transform:uppercase;
+    margin-top:6px;
+    letter-spacing:0.04em;
+  }
+  .share-badge a{
+    font-size:11px;
+    color:var(--clay);
+    text-decoration:none;
+    font-weight:600;
+    margin-top:2px;
+    word-break:break-all;
+  }
+  .share-badge a:hover{
+    text-decoration:underline;
+  }
+
+  .titleblock-meta{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+  }
+  .meta-cell{
+    padding:12px 18px;
+    border-right:1px solid var(--ink);
+  }
+  .meta-cell:last-child{ border-right:none; }
+  .meta-cell .label{
+    display:block;
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    font-weight:600;
+    margin-bottom:3px;
+  }
+  .meta-cell .value{
+    font-size:14px;
+    font-weight:600;
+  }
+
+  /* ---- Section heading ---- */
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin:52px 0 0;
+    padding-bottom:12px;
+    border-bottom:2px solid var(--ink);
+  }
+  .section-head h2{
+    font-family:'Zilla Slab',serif;
+    font-size:24px;
+    font-weight:600;
+    margin:0;
+  }
+  .section-head span{
+    font-size:13px;
+    color:var(--muted);
+    font-weight:600;
+    text-transform:uppercase;
+  }
+
+  /* ---- Material ledger rows ---- */
+  .row{
+    display:grid;
+    grid-template-columns:80px 1fr 240px;
+    gap:24px;
+    padding:24px 0;
+    border-bottom:1px solid var(--line);
+    align-items:center;
+  }
+  .swatch{
+    width:80px;
+    height:80px;
+    border:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--paper-2);
+  }
+  .swatch svg{ width:40px; height:40px; }
+
+  .mat-name{
+    font-family:'Zilla Slab',serif;
+    font-size:19px;
+    font-weight:600;
+    margin:0 0 4px;
+  }
+  .mat-note{
+    color:var(--steel);
+    font-size:13.5px;
+    margin:0;
+    max-width:46ch;
+  }
+
+  .specs{
+    font-size:13px;
+    display:grid;
+    grid-template-columns:60px 1fr;
+    row-gap:4px;
+    column-gap:8px;
+    align-content:start;
+  }
+  .specs .k{ color:var(--muted); font-size:11px; text-transform:uppercase; font-weight:600; }
+  .specs .v{ font-weight:500; }
+  .specs .price{ color:var(--clay); font-weight:700; }
+
+  /* ---- Contact / footer ---- */
+  .contact{
+    margin-top:56px;
+    padding-top:28px;
+    border-top:1px solid var(--ink);
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:24px;
+    align-items:flex-end;
+  }
+  .contact h3{
+    font-family:'Zilla Slab',serif;
+    font-size:20px;
+    margin:0 0 6px;
+  }
+  .contact p{
+    margin:0;
+    color:var(--steel);
+    max-width:40ch;
+    font-size:13.5px;
+  }
+  .contact-fields{
+    font-size:13.5px;
+    text-align:right;
+  }
+  .contact-fields div{ margin-bottom:3px; }
+  .contact-fields .label{ color:var(--muted); font-size:11px; text-transform:uppercase; font-weight:600; margin-right:4px; }
+  .contact-fields .val{ font-weight:500; }
+
+  @media (max-width:640px){
+    .titleblock-main{ flex-direction:column; }
+    .share-badge{ width:100%; flex-direction:row; justify-content:space-between; padding:8px 16px; }
+    .row{ grid-template-columns:56px 1fr; }
+    .row .specs{ grid-column:1 / -1; grid-template-columns:70px 1fr; margin-top:8px; }
+    .swatch{ width:56px; height:56px; }
+    .swatch svg{ width:30px; height:30px; }
+    .titleblock-meta{ grid-template-columns:repeat(2,1fr); }
+    .meta-cell:nth-child(2){ border-right:none; }
+    .meta-cell{ border-bottom:1px solid var(--ink); }
+    .contact{ flex-direction:column; align-items:flex-start; }
+    .contact-fields{ text-align:left; }
+  }
+
+  [contenteditable="true"]{ outline:none; border-radius:2px; }
+  [contenteditable="true"]:hover{ background:rgba(181,86,58,0.08); }
+  [contenteditable="true"]:focus{ background:rgba(181,86,58,0.14); }
+
+  .edit-note{
+    background:var(--ink);
+    color:var(--paper);
+    font-size:13px;
+    text-align:center;
+    padding:8px 16px;
+  }
+  .edit-note b{ color:#fff; }
+  @media print{ .edit-note{ display:none; } }
+
+  @media print {
+    @page { size: A4 portrait; margin: 12mm; }
+    body { background: #fff !important; }
+    .sheet { padding: 0; max-width: 100%; }
+    .row, .titleblock, .contact { page-break-inside: avoid; }
+    .share-badge a { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="edit-note">Click any text to edit it directly — <b>use your browser's "Save Page As" (Ctrl/Cmd+S)</b> to keep changes, or paste them back to me and I'll update the file.</div>
+
+<div class="sheet">
+
+  <div class="titleblock">
+    <div class="titleblock-main">
+      <div class="titleblock-text">
+        <p class="kicker" contenteditable="true">Official Register • Editable Draft</p>
+        <h1 contenteditable="true">Masonry Works — Materials Register</h1>
+        <p contenteditable="true">Reference list of materials, specifications, and suppliers compiled for procurement and BOQ pricing.</p>
+      </div>
+      <div class="share-badge">
+        <img id="qrcode" src="" alt="Register QR Code">
+        <span contenteditable="true">Scan or Share</span>
+        <a id="register-link" href="#" target="_blank">Open Link ↗</a>
+      </div>
+    </div>
+    <div class="titleblock-meta">
+      <div class="meta-cell">
+        <span class="label">Project</span>
+        <span class="value" contenteditable="true">Riverside Residence</span>
+      </div>
+      <div class="meta-cell">
+        <span class="label">Location</span>
+        <span class="value" contenteditable="true">Phnom Penh, Cambodia</span>
+      </div>
+      <div class="meta-cell">
+        <span class="label">Prepared by</span>
+        <span class="value" contenteditable="true">Senghak</span>
+      </div>
+      <div class="meta-cell">
+        <span class="label">Date</span>
+        <span class="value" contenteditable="true">13 Sep 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h2>Materials</h2>
+    <span>8 Items</span>
+  </div>
+
+  <!-- Row 1 -->
+  <div class="row">
+    <div class="swatch">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#B5563A" stroke-width="2">
+        <rect x="6" y="14" width="36" height="20" rx="1"/>
+        <line x1="6" y1="24" x2="42" y2="24"/>
+        <line x1="18" y1="14" x2="18" y2="24"/>
+        <line x1="30" y1="14" x2="30" y2="24"/>
+        <line x1="12" y1="24" x2="12" y2="34"/>
+        <line x1="24" y1="24" x2="24" y2="34"/>
+        <line x1="36" y1="24" x2="36" y2="34"/>
+      </svg>
+    </div>
+    <div>
+      <p class="mat-name" contenteditable="true">Hollow Clay Brick</p>
+      <p class="mat-note" contenteditable="true">Fired clay brick for non-load-bearing partition walls.</p>
+    </div>
+    <div class="specs">
+      <span class="k">Code</span><span class="v" contenteditable="true">CLB-08</span>
+      <span class="k">Size</span><span class="v" contenteditable="true">80×80×180mm</span>
+      <span class="k">Brand</span><span class="v" contenteditable="true">Local</span>
+      <span class="k">Supplier</span><span class="v" contenteditable="true">Local Supplier</span>
+      <span class="k">Tel</span><span class="v" contenteditable="true">+855 12 345 678</span>
+      <span class="k">Price</span><span class="v price" contenteditable="true">$0.04 / pc</span>
+    </div>
+  </div>
+
+  <!-- Row 2 -->
+  <div class="row">
+    <div class="swatch">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#4A4E52" stroke-width="2">
+        <rect x="5" y="12" width="38" height="24" rx="1"/>
+        <line x1="5" y1="24" x2="43" y2="24"/>
+        <line x1="24" y1="12" x2="24" y2="24"/>
+        <line x1="14" y1="24" x2="14" y2="36"/>
+        <line x1="34" y1="24" x2="34" y2="36"/>
+      </svg>
+    </div>
+    <div>
+      <p class="mat-name" contenteditable="true">Solid Concrete Block (CHB)</p>
+      <p class="mat-note" contenteditable="true">Load-bearing concrete masonry unit for exterior walls.</p>
+    </div>
+    <div class="specs">
+      <span class="k">Code</span><span class="v" contenteditable="true">CHB-15</span>
+      <span class="k">Size</span><span class="v" contenteditable="true">150×200×400mm</span>
+      <span class="k">Brand</span><span class="v" contenteditable="true">Cambodia Concrete Co.</span>
+      <span class="k">Supplier</span><span class="v" contenteditable="true">PP Building Supply</span>
+      <span class="k">Tel</span><span class="v" contenteditable="true">+855 23 456 789</span>
+      <span class="k">Price</span><span class="v price" contenteditable="true">$0.55 / pc</span>
+    </div>
+  </div>
+
+  <!-- Row 3 -->
+  <div class="row">
+    <div class="swatch">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#B5563A" stroke-width="2">
+        <path d="M12 14 h24 v22 a2 2 0 0 1 -2 2 h-20 a2 2 0 0 1 -2 -2 Z"/>
+        <line x1="12" y1="20" x2="36" y2="20"/>
+        <line x1="20" y1="10" x2="20" y2="14"/>
+        <line x1="28" y1="10" x2="28" y2="14"/>
+      </svg>
+    </div>
+    <div>
+      <p class="mat-name" contenteditable="true">Portland Cement (OPC Type I)</p>
+      <p class="mat-note" contenteditable="true">General-purpose cement for mortar and concrete mixes.</p>
+    </div>
+    <div class="specs">
+      <span class="k">Code</span><span class="v" contenteditable="true">CEM-42.5N</span>
+      <span class="k">Size</span><span class="v" contenteditable="true">50kg bag</span>
+      <span class="k">Brand</span><span class="v" contenteditable="true">Chip Mong</span>
+      <span class="k">Supplier</span><span class="v" contenteditable="true">Local Hardware</span>
+      <span class="k">Tel</span><span class="v" contenteditable="true">+855 17 222 333</span>
+      <span class="k">Price</span><span class="v price" contenteditable="true">$5.20 / bag</span>
+    </div>
+  </div>
+
+  <!-- Row 4 -->
+  <div class="row">
+    <div class="swatch">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#4A4E52" stroke-width="2">
+        <path d="M8 34 L18 16 L28 34 Z"/>
+        <path d="M22 34 L30 22 L40 34 Z"/>
+      </svg>
+    </div>
+    <div>
+      <p class="mat-name" contenteditable="true">River Sand (Fine Aggregate)</p>
+      <p class="mat-note" contenteditable="true">Washed river sand for mortar and plaster mixes.</p>
+    </div>
+    <div class="specs">
+      <span class="k">Code</span><span class="v" contenteditable="true">SND-F</span>
+      <span class="k">Size</span><span class="v" contenteditable="true">per m³</span>
+      <span class="k">Brand</span><span class="v" contenteditable="true">Local Quarry</span>
+      <span class="k">Supplier</span><span class="v" contenteditable="true">Mekong River Supplier</span>
+      <span class="k">Tel</span><span class="v" contenteditable="true">+855 92 111 222</span>
+      <span class="k">Price</span><span class="v price" contenteditable="true">$14 / m³</span>
+    </div>
+  </div>
+
+  <!-- Row 5 -->
+  <div class="row">
+    <div class="swatch">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#B5563A" stroke-width="2">
+        <circle cx="14" cy="26" r="5"/>
+        <circle cx="26" cy="18" r="4"/>
+        <circle cx="34" cy="28" r="6"/>
+        <circle cx="20" cy="34" r="3"/>
+      </svg>
+    </div>
+    <div>
+      <p class="mat-name" contenteditable="true">Crushed Stone Aggregate</p>
+      <p class="mat-note" contenteditable="true">Graded coarse aggregate for concrete mixes.</p>
+    </div>
+    <div class="specs">
+      <span class="k">Code</span><span class="v" contenteditable="true">AGG-19</span>
+      <span class="k">Size</span><span class="v" contenteditable="true">19mm graded</span>
+      <span class="k">Brand</span><span class="v" contenteditable="true">Local Quarry</span>
+      <span class="k">Supplier</span><span class="v" contenteditable="true">Kandal Aggregate Supply</span>
+      <span class="k">Tel</span><span class="v" contenteditable="true">+855 11 555 666</span>
+      <span class="k">Price</span><span class="v price" contenteditable="true">$18 / m³</span>
+    </div>
+  </div>
+
+  <!-- Row 6 -->
+  <div class="row">
+    <div class="swatch">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#4A4E52" stroke-width="2">
+        <line x1="10" y1="38" x2="38" y2="10"/>
+        <line x1="15" y1="35" x2="19" y2="31"/>
+        <line x1="21" y1="29" x2="25" y2="25"/>
+        <line x1="27" y1="23" x2="31" y2="19"/>
+        <line x1="33" y1="17" x2="37" y2="13"/>
+      </svg>
+    </div>
+    <div>
+      <p class="mat-name" contenteditable="true">Deformed Reinforcement Bar</p>
+      <p class="mat-note" contenteditable="true">Ribbed steel bar for reinforced concrete lintels and columns.</p>
+    </div>
+    <div class="specs">
+      <span class="k">Code</span><span class="v" contenteditable="true">RB-D12</span>
+      <span class="k">Size</span><span class="v" contenteditable="true">12mm × 12m</span>
+      <span class="k">Brand</span><span class="v" contenteditable="true">Tycoons Steel</span>
+      <span class="k">Supplier</span><span class="v" contenteditable="true">Steel Distributor</span>
+      <span class="k">Tel</span><span class="v" contenteditable="true">+855 15 777 888</span>
+      <span class="k">Price</span><span class="v price" contenteditable="true">$9.80 / pc</span>
+    </div>
+  </div>
+
+  <!-- Row 7 -->
+  <div class="row">
+    <div class="swatch">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#B5563A" stroke-width="2">
+        <path d="M14 12 h20 v6 h-4 v18 h-12 v-18 h-4 Z"/>
+      </svg>
+    </div>
+    <div>
+      <p class="mat-name" contenteditable="true">Masonry Mortar Mix</p>
+      <p class="mat-note" contenteditable="true">Pre-blended mortar for brick and block laying.</p>
+    </div>
+    <div class="specs">
+      <span class="k">Code</span><span class="v" contenteditable="true">MOR-M5</span>
+      <span class="k">Size</span><span class="v" contenteditable="true">25kg bag</span>
+      <span class="k">Brand</span><span class="v" contenteditable="true">Local</span>
+      <span class="k">Supplier</span><span class="v" contenteditable="true">Local Hardware</span>
+      <span class="k">Tel</span><span class="v" contenteditable="true">+855 16 999 000</span>
+      <span class="k">Price</span><span class="v price" contenteditable="true">$3.10 / bag</span>
+    </div>
+  </div>
+
+  <!-- Row 8 -->
+  <div class="row">
+    <div class="swatch">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#4A4E52" stroke-width="2">
+        <rect x="8" y="10" width="10" height="28" rx="5"/>
+        <line x1="18" y1="14" x2="40" y2="14"/>
+        <line x1="18" y1="34" x2="40" y2="34"/>
+        <line x1="18" y1="24" x2="34" y2="24"/>
+      </svg>
+    </div>
+    <div>
+      <p class="mat-name" contenteditable="true">Waterproofing Membrane</p>
+      <p class="mat-note" contenteditable="true">Self-adhesive membrane for foundation and wet-area damp-proofing.</p>
+    </div>
+    <div class="specs">
+      <span class="k">Code</span><span class="v" contenteditable="true">WPM-1.5</span>
+      <span class="k">Size</span><span class="v" contenteditable="true">1 × 10m roll</span>
+      <span class="k">Brand</span><span class="v" contenteditable="true">Sika</span>
+      <span class="k">Supplier</span><span class="v" contenteditable="true">Sika Cambodia Dealer</span>
+      <span class="k">Tel</span><span class="v" contenteditable="true">+855 23 888 999</span>
+      <span class="k">Price</span><span class="v price" contenteditable="true">$22 / roll</span>
+    </div>
+  </div>
+
+  <div class="contact">
+    <div>
+      <h3 contenteditable="true">Questions on pricing or availability?</h3>
+      <p contenteditable="true">Get in touch for a full BOQ or a formal quotation on any item above.</p>
+    </div>
+    <div class="contact-fields">
+      <div><span class="label">Email</span><span class="val" contenteditable="true">you@example.com</span></div>
+      <div><span class="label">Phone</span><span class="val" contenteditable="true">+855 00 000 000</span></div>
+      <div><span class="label">Address</span><span class="val" contenteditable="true">Phnom Penh, Cambodia</span></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    // Once this file is published (GitHub Pages, Netlify, your own domain, etc.),
+    // paste the live address here so the QR code always points to the right place, e.g.:
+    // const PUBLISHED_URL = "https://yourname.github.io/masonry-register.html";
+    const PUBLISHED_URL = "";
+
+    const isHosted = window.location.protocol.startsWith('http');
+    const url = PUBLISHED_URL || (isHosted ? window.location.href : null);
+
+    const qrImg = document.getElementById('qrcode');
+    const linkEl = document.getElementById('register-link');
+    const badge = document.querySelector('.share-badge');
+
+    if (url) {
+      qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(url);
+      linkEl.href = url;
+      linkEl.textContent = 'Open Link ↗';
+    } else {
+      // No real, published address yet — show a note instead of a QR code that leads nowhere.
+      badge.innerHTML = '<span style="font-size:11px;color:var(--muted);max-width:110px;line-height:1.4;">QR code appears here once this page is published online</span>';
+    }
+  });
+</script>
+
+</body>
+</html>
