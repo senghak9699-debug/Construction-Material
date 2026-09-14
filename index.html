@@ -155,6 +155,209 @@
     text-transform:uppercase;
   }
 
+  /* ---- Category filter sidebar ---- */
+  .layout{
+    display:flex;
+    align-items:flex-start;
+    gap:40px;
+    margin-top:52px;
+  }
+  .filters{
+    width:210px;
+    flex-shrink:0;
+    position:sticky;
+    top:24px;
+  }
+  .filters .all-item{
+    font-family:'Zilla Slab',serif;
+    font-size:16px;
+    font-weight:600;
+    padding-bottom:16px;
+    margin-bottom:16px;
+    border-bottom:2px solid var(--ink);
+  }
+  .filter-group{
+    margin-bottom:28px;
+  }
+  .filter-group-title{
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+  .filter-item{
+    font-size:14px;
+    color:var(--steel);
+    padding:6px 0;
+    cursor:pointer;
+    transition:color .15s ease;
+  }
+  .filter-item:hover{ color:var(--ink); }
+  .filter-item.active{
+    color:var(--clay);
+    font-weight:600;
+  }
+  .main{ flex:1; min-width:0; }
+  .main .section-head{ margin-top:0; }
+
+  @media (max-width:820px){
+    .layout{ flex-direction:column; gap:24px; }
+    .filters{
+      width:100%;
+      position:static;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px 20px;
+      align-items:baseline;
+    }
+    .filters .all-item{
+      width:100%;
+      border-bottom:1px solid var(--line);
+      padding-bottom:10px;
+      margin-bottom:6px;
+    }
+    .filter-group{ margin-bottom:12px; display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 14px; }
+    .filter-group-title{ width:100%; margin-bottom:4px; }
+  }
+
+  @media print { .filters{ display:none; } }
+
+  .sample-link{
+    font-size:12.5px;
+    color:var(--clay);
+    font-weight:600;
+    cursor:pointer;
+    margin:8px 0 0;
+    display:inline-block;
+  }
+  .sample-link:hover{ text-decoration:underline; }
+
+  /* ---- Material Sample modal ---- */
+  .sample-modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(43,40,37,0.6);
+    display:none;
+    align-items:flex-start;
+    justify-content:center;
+    padding:40px 20px;
+    overflow-y:auto;
+    z-index:200;
+  }
+  .sample-modal-overlay.open{ display:flex; }
+  .sample-modal{
+    background:var(--paper);
+    max-width:920px;
+    width:100%;
+    padding:40px 44px 30px;
+    position:relative;
+    border:1px solid var(--ink);
+  }
+  .sample-close{
+    position:absolute;
+    top:14px; right:16px;
+    background:none;
+    border:none;
+    font-size:30px;
+    line-height:1;
+    cursor:pointer;
+    color:var(--steel);
+  }
+  .sample-close:hover{ color:var(--clay); }
+  .sample-kicker{
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 6px;
+  }
+  .sample-title{
+    font-family:'Zilla Slab',serif;
+    font-weight:800;
+    font-size:32px;
+    margin:0 0 8px;
+    letter-spacing:-.01em;
+  }
+  .sample-subtitle{
+    font-size:16px;
+    color:var(--steel);
+    margin:0 0 24px;
+    padding-bottom:20px;
+    border-bottom:1px solid var(--line);
+  }
+  .sample-body{
+    display:grid;
+    grid-template-columns:250px 1fr;
+    gap:28px;
+    margin-bottom:26px;
+  }
+  .sample-photo-wrap img{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+    border:1px solid var(--line);
+    display:block;
+  }
+  .sample-caption{ font-size:13px; font-weight:600; margin:8px 0 2px; }
+  .sample-pattern{
+    height:200px;
+    border:1px solid var(--line);
+    background-color:var(--paper-2);
+    background-repeat:repeat;
+    background-size:120px 76px;
+    margin-bottom:10px;
+  }
+  .sample-caption-bold{ font-weight:700; font-size:14px; margin:0 0 2px; }
+  .sample-caption-muted{ font-size:12.5px; color:var(--muted); margin:0 0 14px; }
+  .sample-tonal-label{
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--muted);
+    margin:0 0 8px;
+  }
+  .tonal-swatches{ display:flex; gap:6px; }
+  .tonal-chip{ flex:1; text-align:center; }
+  .tonal-chip .swatch-color{ height:44px; border:1px solid var(--line); }
+  .tonal-chip .swatch-hex{ font-size:10px; color:var(--muted); margin-top:4px; }
+
+  .sample-specs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px 32px;
+    font-size:13.5px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    margin-bottom:18px;
+  }
+  .sample-specs > div:last-child{ grid-column:1/-1; }
+  .sample-specs .sk{
+    display:inline-block;
+    width:110px;
+    color:var(--muted);
+    font-size:11px;
+    text-transform:uppercase;
+    font-weight:700;
+    vertical-align:top;
+  }
+  .sample-specs .sv{ font-weight:500; }
+  .sample-footnote{
+    font-size:11.5px;
+    color:var(--muted);
+    border-top:1px solid var(--line);
+    padding-top:14px;
+    margin:0;
+  }
+  @media (max-width:640px){
+    .sample-body{ grid-template-columns:1fr; }
+    .sample-specs{ grid-template-columns:1fr; }
+    .sample-modal{ padding:30px 22px 24px; }
+  }
+
   /* ---- Material ledger rows ---- */
   .row{
     display:grid;
@@ -352,13 +555,38 @@
     </div>
   </div>
 
-  <div class="section-head">
-    <h2>Materials</h2>
-    <span>8 Items</span>
-  </div>
+  <div class="layout">
+    <aside class="filters">
+      <div class="filter-item all-item active" data-filter="all">All Items</div>
 
-  <!-- Row 1 -->
-  <div class="row">
+      <div class="filter-group">
+        <div class="filter-group-title">Architectural Works</div>
+        <div class="filter-item" data-filter="masonry-works">Masonry Works</div>
+        <div class="filter-item" data-filter="painting-works">Painting Works</div>
+        <div class="filter-item" data-filter="ceiling-works">Ceiling Works</div>
+        <div class="filter-item" data-filter="waterproofing-works">Waterproofing Works</div>
+        <div class="filter-item" data-filter="handrail-works">Handrail Works</div>
+        <div class="filter-item" data-filter="floor-wall-finishing">Floor and Wall Finishing Work</div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Structural Works</div>
+        <div class="filter-item" data-filter="concrete">Concrete</div>
+        <div class="filter-item" data-filter="rebar">Rebar</div>
+        <div class="filter-item" data-filter="formwork">Formwork</div>
+        <div class="filter-item" data-filter="steel">Steel</div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <div class="section-head">
+        <h2>Materials</h2>
+        <span id="itemCount">8 Items</span>
+      </div>
+
+      <div id="rowsWrap">
+      <!-- Row 1 -->
+      <div class="row" data-category="masonry-works">
     <div class="swatch">
       <svg viewBox="0 0 48 48" fill="none" stroke="#B5563A" stroke-width="2">
         <rect x="6" y="14" width="36" height="20" rx="1"/>
@@ -375,6 +603,7 @@
     <div>
       <p class="mat-name editable">Hollow Clay Brick</p>
       <p class="mat-note editable">Fired clay brick for non-load-bearing partition walls.</p>
+      <p class="sample-link">View Material Sample →</p>
     </div>
     <div class="specs">
       <span class="k">Code</span><span class="v editable">CLB-08</span>
@@ -387,7 +616,7 @@
   </div>
 
   <!-- Row 2 -->
-  <div class="row">
+  <div class="row" data-category="masonry-works">
     <div class="swatch">
       <svg viewBox="0 0 48 48" fill="none" stroke="#4A4E52" stroke-width="2">
         <rect x="5" y="12" width="38" height="24" rx="1"/>
@@ -402,6 +631,7 @@
     <div>
       <p class="mat-name editable">Solid Concrete Block (CHB)</p>
       <p class="mat-note editable">Load-bearing concrete masonry unit for exterior walls.</p>
+      <p class="sample-link">View Material Sample →</p>
     </div>
     <div class="specs">
       <span class="k">Code</span><span class="v editable">CHB-15</span>
@@ -414,7 +644,7 @@
   </div>
 
   <!-- Row 3 -->
-  <div class="row">
+  <div class="row" data-category="concrete">
     <div class="swatch">
       <svg viewBox="0 0 48 48" fill="none" stroke="#B5563A" stroke-width="2">
         <path d="M12 14 h24 v22 a2 2 0 0 1 -2 2 h-20 a2 2 0 0 1 -2 -2 Z"/>
@@ -428,6 +658,7 @@
     <div>
       <p class="mat-name editable">Portland Cement (OPC Type I)</p>
       <p class="mat-note editable">General-purpose cement for mortar and concrete mixes.</p>
+      <p class="sample-link">View Material Sample →</p>
     </div>
     <div class="specs">
       <span class="k">Code</span><span class="v editable">CEM-42.5N</span>
@@ -440,7 +671,7 @@
   </div>
 
   <!-- Row 4 -->
-  <div class="row">
+  <div class="row" data-category="concrete">
     <div class="swatch">
       <svg viewBox="0 0 48 48" fill="none" stroke="#4A4E52" stroke-width="2">
         <path d="M8 34 L18 16 L28 34 Z"/>
@@ -452,6 +683,7 @@
     <div>
       <p class="mat-name editable">River Sand (Fine Aggregate)</p>
       <p class="mat-note editable">Washed river sand for mortar and plaster mixes.</p>
+      <p class="sample-link">View Material Sample →</p>
     </div>
     <div class="specs">
       <span class="k">Code</span><span class="v editable">SND-F</span>
@@ -464,7 +696,7 @@
   </div>
 
   <!-- Row 5 -->
-  <div class="row">
+  <div class="row" data-category="concrete">
     <div class="swatch">
       <svg viewBox="0 0 48 48" fill="none" stroke="#B5563A" stroke-width="2">
         <circle cx="14" cy="26" r="5"/>
@@ -478,6 +710,7 @@
     <div>
       <p class="mat-name editable">Crushed Stone Aggregate</p>
       <p class="mat-note editable">Graded coarse aggregate for concrete mixes.</p>
+      <p class="sample-link">View Material Sample →</p>
     </div>
     <div class="specs">
       <span class="k">Code</span><span class="v editable">AGG-19</span>
@@ -490,7 +723,7 @@
   </div>
 
   <!-- Row 6 -->
-  <div class="row">
+  <div class="row" data-category="rebar">
     <div class="swatch">
       <svg viewBox="0 0 48 48" fill="none" stroke="#4A4E52" stroke-width="2">
         <line x1="10" y1="38" x2="38" y2="10"/>
@@ -505,6 +738,7 @@
     <div>
       <p class="mat-name editable">Deformed Reinforcement Bar</p>
       <p class="mat-note editable">Ribbed steel bar for reinforced concrete lintels and columns.</p>
+      <p class="sample-link">View Material Sample →</p>
     </div>
     <div class="specs">
       <span class="k">Code</span><span class="v editable">RB-D12</span>
@@ -517,7 +751,7 @@
   </div>
 
   <!-- Row 7 -->
-  <div class="row">
+  <div class="row" data-category="masonry-works">
     <div class="swatch">
       <svg viewBox="0 0 48 48" fill="none" stroke="#B5563A" stroke-width="2">
         <path d="M14 12 h20 v6 h-4 v18 h-12 v-18 h-4 Z"/>
@@ -528,6 +762,7 @@
     <div>
       <p class="mat-name editable">Masonry Mortar Mix</p>
       <p class="mat-note editable">Pre-blended mortar for brick and block laying.</p>
+      <p class="sample-link">View Material Sample →</p>
     </div>
     <div class="specs">
       <span class="k">Code</span><span class="v editable">MOR-M5</span>
@@ -540,7 +775,7 @@
   </div>
 
   <!-- Row 8 -->
-  <div class="row">
+  <div class="row" data-category="waterproofing-works">
     <div class="swatch">
       <svg viewBox="0 0 48 48" fill="none" stroke="#4A4E52" stroke-width="2">
         <rect x="8" y="10" width="10" height="28" rx="5"/>
@@ -554,6 +789,7 @@
     <div>
       <p class="mat-name editable">Waterproofing Membrane</p>
       <p class="mat-note editable">Self-adhesive membrane for foundation and wet-area damp-proofing.</p>
+      <p class="sample-link">View Material Sample →</p>
     </div>
     <div class="specs">
       <span class="k">Code</span><span class="v editable">WPM-1.5</span>
@@ -562,6 +798,11 @@
       <span class="k">Supplier</span><span class="v editable">Sika Cambodia Dealer</span>
       <span class="k">Tel</span><span class="v editable">+855 23 888 999</span>
       <span class="k">Price</span><span class="v price editable">$22 / roll</span>
+    </div>
+  </div>
+
+      </div>
+      <p id="emptyMsg" style="display:none; color:var(--muted); font-size:14px; padding:24px 0;">No items in this category yet.</p>
     </div>
   </div>
 
@@ -579,7 +820,175 @@
 
 </div>
 
+<div class="sample-modal-overlay" id="sampleModal">
+  <div class="sample-modal">
+    <button class="sample-close" id="sampleClose" type="button">&times;</button>
+    <p class="sample-kicker" id="sampleKicker">Project · Location</p>
+    <h2 class="sample-title">Material Sample</h2>
+    <p class="sample-subtitle"><span id="sampleMaterialName" class="editable">Material Name</span> — <span class="editable" id="sampleApplication">Application</span></p>
+
+    <div class="sample-body">
+      <div class="sample-photo-wrap">
+        <img id="samplePhoto" src="" alt="Material sample photo">
+        <p class="sample-caption editable">Sample A — natural finish</p>
+      </div>
+      <div>
+        <div class="sample-pattern" id="samplePattern"></div>
+        <p class="sample-caption-bold editable">Indicative laid pattern</p>
+        <p class="sample-caption-muted editable">Coursing and tonal variation only; joint width and layout to be confirmed.</p>
+        <p class="sample-tonal-label">Tonal range (sampled from the photograph)</p>
+        <div class="tonal-swatches" id="tonalSwatches"></div>
+      </div>
+    </div>
+
+    <div class="sample-specs">
+      <div><span class="sk">Material</span><span class="sv editable" id="specMaterial">—</span></div>
+      <div><span class="sk">Application</span><span class="sv editable" id="specApplication">—</span></div>
+      <div><span class="sk">Reference</span><span class="sv editable" id="specReference">—</span></div>
+      <div><span class="sk">Finish</span><span class="sv editable" id="specFinish">—</span></div>
+      <div><span class="sk">Nominal Size</span><span class="sv editable" id="specSize">—</span></div>
+      <div><span class="sk">Status</span><span class="sv editable" id="specStatus">Submitted for Client / Designer approval</span></div>
+      <div><span class="sk">Submitted By</span><span class="sv editable" id="specSubmittedBy">_____________________</span>&nbsp;&nbsp;&nbsp;<span class="sk">Date</span><span class="sv editable" id="specDate">_____________</span></div>
+    </div>
+
+    <p class="sample-footnote editable">Bedding: cement mortar bed on prepared substrate. Sealer to be confirmed. Colour and texture vary naturally between pieces — final approval to be given against the physical sample viewed under site lighting.</p>
+  </div>
+</div>
+
 <script>
+  // ---- Material Sample modal ----
+  window.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('sampleModal');
+    const closeBtn = document.getElementById('sampleClose');
+
+    function luminance(hex){
+      const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+      return 0.299*r + 0.587*g + 0.114*b;
+    }
+
+    function sampleTones(imgEl, count){
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = imgEl.naturalWidth;
+        canvas.height = imgEl.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(imgEl, 0, 0);
+        const colors = [];
+        for (let i = 0; i < count; i++) {
+          const x = Math.floor((canvas.width / (count + 1)) * (i + 1));
+          const y = Math.floor(canvas.height / 2);
+          const d = ctx.getImageData(x, y, 1, 1).data;
+          colors.push('#' + [d[0], d[1], d[2]].map(v => v.toString(16).padStart(2, '0')).join(''));
+        }
+        colors.sort((a, b) => luminance(b) - luminance(a));
+        return colors;
+      } catch (e) {
+        return null; // canvas can throw on tainted/cross-origin images
+      }
+    }
+
+    function openSampleModal(row) {
+      const name = row.querySelector('.mat-name')?.textContent.trim() || 'Material';
+      const specVals = row.querySelectorAll('.specs .v');
+      const sizeVal = specVals[1] ? specVals[1].textContent.trim() : '—';
+      const codeVal = specVals[0] ? specVals[0].textContent.trim() : '—';
+      const img = row.querySelector('.swatch img');
+
+      document.getElementById('sampleMaterialName').textContent = name;
+      document.getElementById('specMaterial').textContent = name;
+      document.getElementById('specSize').textContent = sizeVal;
+      document.getElementById('specReference').textContent = codeVal;
+
+      const metaValues = document.querySelectorAll('.meta-cell .value');
+      const project = metaValues[0] ? metaValues[0].textContent.trim() : 'Project';
+      const location = metaValues[1] ? metaValues[1].textContent.trim() : 'Location';
+      document.getElementById('sampleKicker').textContent = project + ' · ' + location;
+
+      const photoWrap = document.querySelector('.sample-photo-wrap');
+      const patternEl = document.getElementById('samplePattern');
+      const tonalWrap = document.getElementById('tonalSwatches');
+      const sampleImg = document.getElementById('samplePhoto');
+
+      patternEl.style.backgroundImage = 'none';
+      patternEl.style.display = 'block';
+
+      if (img) {
+        sampleImg.src = img.src;
+        photoWrap.style.display = '';
+        patternEl.style.backgroundImage = `url(${img.src})`;
+
+        const tmp = new Image();
+        tmp.onload = () => {
+          const hexes = sampleTones(tmp, 5);
+          if (hexes) {
+            tonalWrap.innerHTML = hexes.map(h =>
+              `<div class="tonal-chip"><div class="swatch-color" style="background:${h}"></div><div class="swatch-hex">${h.toUpperCase()}</div></div>`
+            ).join('');
+          } else {
+            tonalWrap.innerHTML = '<p style="font-size:12px;color:var(--muted);">Tonal range unavailable for this image.</p>';
+          }
+        };
+        tmp.src = img.src;
+      } else {
+        photoWrap.style.display = 'none';
+        patternEl.style.display = 'flex';
+        patternEl.style.alignItems = 'center';
+        patternEl.style.justifyContent = 'center';
+        patternEl.style.color = 'var(--muted)';
+        patternEl.style.fontSize = '13px';
+        patternEl.style.textAlign = 'center';
+        patternEl.style.padding = '20px';
+        patternEl.textContent = 'Upload a photo for this material (📷 icon in Edit Mode) to preview a laid pattern here.';
+        tonalWrap.innerHTML = '<p style="font-size:12px;color:var(--muted);">No photo uploaded yet — the tonal range will be generated automatically once you add one.</p>';
+      }
+
+      modal.classList.add('open');
+    }
+
+    document.querySelectorAll('.sample-link').forEach(link => {
+      link.addEventListener('click', () => {
+        const row = link.closest('.row');
+        if (row) openSampleModal(row);
+      });
+    });
+
+    closeBtn.addEventListener('click', () => modal.classList.remove('open'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('open');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') modal.classList.remove('open');
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const filterItems = document.querySelectorAll('.filter-item');
+    const rows = document.querySelectorAll('#rowsWrap .row');
+    const itemCount = document.getElementById('itemCount');
+    const emptyMsg = document.getElementById('emptyMsg');
+
+    filterItems.forEach(item => {
+      item.addEventListener('click', () => {
+        filterItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        const filter = item.dataset.filter;
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+          const match = filter === 'all' || row.dataset.category === filter;
+          row.style.display = match ? '' : 'none';
+          if (match) visibleCount++;
+        });
+
+        itemCount.textContent = visibleCount + (visibleCount === 1 ? ' Item' : ' Items');
+        emptyMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+      });
+    });
+  });
+
   window.addEventListener('DOMContentLoaded', () => {
     const toggleBtn = document.getElementById('editToggle');
     const editableEls = document.querySelectorAll('.editable');
